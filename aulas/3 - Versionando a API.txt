@@ -1,0 +1,13 @@
+1 – Dentro da pasta controllers crie uma pasta chamada api
+
+2 – Dentro da pasta criada crie uma nova pasta chamada v1
+
+3 – Dentro da pasta criada crie um arquivo chamado api_controller.rb e coloque nele:
+
+module Api
+   module V1
+      class ApiController < ApplicationController
+         #> Métodos globais
+      end
+   end
+end

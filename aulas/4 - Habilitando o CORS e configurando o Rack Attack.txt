@@ -1,0 +1,33 @@
+# Habilitando o CORS ———————————————————————- #
+
+1 – Crie um arquivo (ou atualize) chamado cors.rb em config/initializers/ e coloque nele:
+
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins '*'
+    resource '*', headers: :any, methods: %i[get post put delete]
+  end
+end
+ 
+
+# Configurando o Rack Attack ————————————————————– #
+
+1 – Acrescente em config/application:
+
+config.middleware.use Rack::Attack
+
+2 – Crie um arquivo chamado rack_attack.rb no seu config/initializers/ e coloque nele:
+
+module Rack
+  class Attack
+    Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+
+    # Allow all local traffic
+    safelist('allow-localhost') do |req|
+      req.ip == '127.0.0.1' || req.ip == '::1'
+    end
+
+    # Allow an IP address to make 5 requests every 5 seconds
+    throttle('req/ip', limit: 5, period: 5, &:ip)
+  end
+end

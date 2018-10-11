@@ -1,0 +1,42 @@
+# Vamos criar os models restantes do nosso projeto—————————————– #
+
+1- Primeiro vamos gerar o model Tweet, rode o seguinte comando no terminal:
+
+docker-compose run --rm app bundle exec rails g model Tweet body:text user:references tweet_original_id:integer
+
+2- Rode as migrations
+
+docker-compose run --rm app bundle exec rake db:migrate
+
+ 
+
+# Vamos setar os relacionamentos da nossa camada model————————————- #
+
+1- No seu model User substitua o conteúdo por:
+
+class User < ApplicationRecord #>
+  has_secure_password
+  validates_length_of :password,
+                      maximum: 72,
+                      minimum: 8,
+                      allow_nil: true,
+                      allow_blank: false
+
+  validates_presence_of :name, :email
+
+
+  acts_as_voter
+  acts_as_followable
+  acts_as_follower
+  has_many :tweets, dependent: :destroy
+end
+
+2- Agora substitua o conteúdo do seu model Tweet por:
+
+class Tweet < ApplicationRecord # >
+  belongs_to :user
+  acts_as_votable
+  belongs_to :tweet_original, class_name: 'Tweet', required: false
+  has_many :retweets, class_name: 'Tweet', foreign_key: 'tweet_original_id'
+  validates_presence_of :body, :user_id
+end

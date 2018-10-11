@@ -1,0 +1,96 @@
+**1- Vamos criar nosso projeto, dentro da pasta desejada no terminal rode os comandos:**
+
+a)
+
+docker run --rm --user "$(id -u):$(id -g)" -v $(pwd):/usr/src -w /usr/src -ti ruby:2.3.1 bash ; cd my_app
+
+b)
+
+gem install rails -v 5.1.5
+
+c)
+
+rails new OneBitTwitter --database=postgresql --skip-bundle --api
+
+d)
+
+exit
+
+e)
+
+cd OneBitTwitter
+
+Obs: Caso você possua o Ruby on Rails instalado na sua máquina, basta gerar com ele 🙂
+
+**2- Agora vamos configurar o docker, na raiz do projeto crie um arquivo chamado dockerfile e insira o conteúdo:**
+
+FROM ruby:2.3-slim
+# Instala nossas dependencias
+RUN apt-get update && apt-get install -qq -y --no-install-recommends \
+build-essential nodejs libpq-dev imagemagick git-all
+
+# Seta nosso path
+ENV INSTALL_PATH /onebittwitter
+# Cria nosso diretório
+RUN mkdir -p $INSTALL_PATH
+# Seta o nosso path como o diretório principal
+WORKDIR $INSTALL_PATH
+# Copia o nosso Gemfile para dentro do container
+COPY Gemfile ./
+# Seta o path para as Gems
+ENV BUNDLE_PATH /app-gems
+# Copia nosso código para dentro do container
+COPY . .
+
+ 
+
+**3- Agora crie também na raiz do projeto o arquivo docker-compose.yml e insira nele:**
+
+version: "3"
+
+services:
+  postgres:
+    image: "postgres:9.5"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  redis:
+    image: "redis:3.2-alpine"
+    command: redis-server
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/var/lib/redis/data
+
+  app:
+    depends_on:
+      - "postgres"
+      - "redis"
+    build: .
+    command: bash start.sh
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/onebittwitter
+      - app-gems:/app-gems
+
+volumes:
+  redis:
+  postgres:
+  app-gems:
+
+ 
+
+**4- Crie agora um arquivo chamado start.sh**
+
+# Instala as Gems
+bundle check || bundle install
+# Roda nosso servidor
+bundle exec puma -C config/puma.rb
+
+**5- Para criar nosso ambiente rode:**
+
+docker-compose build
+
+
+**Obs: Link com seu repositório:**

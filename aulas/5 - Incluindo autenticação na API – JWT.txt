@@ -1,0 +1,61 @@
+1 – Crie o model User rodando:
+
+docker-compose run --rm app bundle exec rails g model User name:string email:string password_digest:string
+
+2 – Atualize o banco de dados rodando:
+
+docker-compose run --rm app bundle exec rails db:migrate
+
+3 – Adicione no Model User:
+
+has_secure_password
+
+4 – Rode o generator do knock:
+
+docker-compose run --rm app bundle exec rails generate knock:token_controller user
+
+5 – Crie o initializer do knock rodando:
+
+docker-compose run --rm app bundle exec rails generate knock:install
+
+6 – Coloque no arquivo gerado:
+
+config.token_lifetime = 1.week
+
+7 – Vamos colocar o knock no nosso namespace, atualize o config/routes.rb colocando:
+
+Rails.application.routes.draw do
+
+  namespace :api do
+    namespace :v1 do
+      post 'user_token', to: 'user_token#create'
+    end
+  end
+end
+
+8 – Mova o arquivo app/controllers/user_token_controller.rb para app/controllers/api/v1/user_token_controller.rb e coloque nele:
+
+module Api
+  module V1
+    class UserTokenController < Knock::AuthTokenController
+  # >
+    end
+  end
+end
+
+9 – Atualize o controller api colocando:
+
+module Api
+  module V1
+    class ApiController < ApplicationController
+      include Knock::Authenticable
+      #> Métodos globais
+    end
+  end
+end
+
+10 – Bora testar isto 🙂
+
+11 – Pronto \o/
+
+
