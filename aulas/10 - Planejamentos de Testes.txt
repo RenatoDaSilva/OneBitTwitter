@@ -1,0 +1,15 @@
+1 – Para gerar o teste de request do controller Users rode no console:
+
+docker-compose run --rm app bundle exec rails g rspec:request api/v1/users
+
+2 – Para gerar o teste de request do controller Tweets rode no console:
+
+docker-compose run --rm app bundle exec rails g rspec:request api/v1/tweets
+
+3 – Para gerar o teste de request do controller Likes rode no console:
+
+docker-compose run --rm app bundle exec rails g rspec:request api/v1/likes
+
+4 – Para gerar o teste de request do controller Follows rode no console:
+
+docker-compose run --rm app bundle exec rails g rspec:request api/v1/follows

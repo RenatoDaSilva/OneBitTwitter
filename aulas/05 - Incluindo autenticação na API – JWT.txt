@@ -33,7 +33,8 @@ Rails.application.routes.draw do
   end
 end
 
-8 – Mova o arquivo app/controllers/user_token_controller.rb para app/controllers/api/v1/user_token_controller.rb e coloque nele:
+8 – Mova o arquivo app/controllers/user_token_controller.rb 
+    para app/controllers/api/v1/user_token_controller.rb e coloque nele:
 
 module Api
   module V1

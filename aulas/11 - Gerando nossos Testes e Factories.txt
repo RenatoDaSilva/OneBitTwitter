@@ -1,0 +1,19 @@
+1- Na pasta spec/factories crie um arquivo chamado user.rb e coloque nele:
+
+FactoryBot.define do
+  factory :user do
+    name         { FFaker::Lorem.word }
+    email        { FFaker::Internet.email }
+    password     'secret123'
+  end
+end
+
+2- Agora na mesma pasta crie um arquivo tweet.rb com o seguinte conteúdo:
+
+FactoryBot.define do
+  factory :tweet do
+    body { FFaker::Lorem.phrase }
+    user
+    tweet_original nil
+  end
+end

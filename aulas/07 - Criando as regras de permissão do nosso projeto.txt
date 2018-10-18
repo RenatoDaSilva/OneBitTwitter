@@ -1,0 +1,26 @@
+1- Substitua o conteúdo do seu models/ability.rb por:
+
+class Ability
+  include CanCan::Ability
+
+  def initialize(user)
+    can :read, Tweet
+    can :read, User
+    return unless user
+    can :manage, Tweet, user_id: user.id
+    can :manage, User,  id: user.id
+  end
+end
+
+2- Atualize o arquivo app/controllers/api/v1/api_controller.rb colocando:
+
+module Api
+  module V1
+    class ApiController < ApplicationController
+      include Knock::Authenticable
+      include CanCan::ControllerAdditions
+    
+      #> Métodos globais
+    end
+  end
+end

@@ -1,0 +1,36 @@
+1- Nosso próximo controller será o de Users
+
+docker-compose run --rm app bundle exec rails g controller api/v1/Users create destroy update current show following followers --no-controller-specs
+
+2- Agora é hora de criar o controller Tweets
+
+docker-compose run --rm app bundle exec rails g controller api/v1/Tweets index show create destroy update --no-controller-specs
+
+3- Vamos criar agora o controller Likes
+
+docker-compose run --rm app bundle exec rails g controller api/v1/Likes create destroy --no-controller-specs
+
+4- Nosso próximo controller será o Follows
+
+docker-compose run --rm app bundle exec rails g controller api/v1/Follows create destroy --no-controller-specs
+
+5- No seu arquivo routes.rb substitua o conteúdo por:
+
+
+Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      post 'user_token', to: 'user_token#create'
+      resources :follows, only: %i[create destroy]
+      resources :likes, only: %i[create destroy]
+      resources :tweets, only: %i[index show create update destroy]
+      resources :users, only: %i[show create update destroy] do
+        member do
+          get 'following'
+          get 'followers'
+        end
+        get 'current', on: :collection
+      end
+    end
+  end
+end
