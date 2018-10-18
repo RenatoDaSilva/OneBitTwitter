@@ -14,7 +14,7 @@ docker-compose run --rm app bundle exec rake db:migrate
 
 1- No seu model User substitua o conteúdo por:
 
-class User < ApplicationRecord #>
+class User < ApplicationRecord
   has_secure_password
   validates_length_of :password,
                       maximum: 72,
@@ -24,7 +24,6 @@ class User < ApplicationRecord #>
 
   validates_presence_of :name, :email
 
-
   acts_as_voter
   acts_as_followable
   acts_as_follower
@@ -33,7 +32,7 @@ end
 
 2- Agora substitua o conteúdo do seu model Tweet por:
 
-class Tweet < ApplicationRecord # >
+class Tweet < ApplicationRecord
   belongs_to :user
   acts_as_votable
   belongs_to :tweet_original, class_name: 'Tweet', required: false

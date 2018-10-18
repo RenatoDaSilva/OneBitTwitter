@@ -1,14 +1,5 @@
 module Api
   module V1
-    class ApiController < ApplicationController
-      include Knock::Authenticable
-      include CanCan::ControllerAdditions
-    end
-  end
-end
-
-module Api
-  module V1
     class UserSerializer < ActiveModel::Serializer
       attributes :id, :name, :email, :tweets_count, :followers_count, :following_count
 

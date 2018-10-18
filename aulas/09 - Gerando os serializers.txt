@@ -6,7 +6,7 @@ docker-compose run --rm app bundle exec rails g serializer api/v1/user
 
 module Api
   module V1
-    class UserSerializer < ActiveModel::Serializer # >
+    class UserSerializer < ActiveModel::Serializer
       attributes :id, :name, :email, :tweets_count, :followers_count, :following_count
 
       def tweets_count
@@ -32,7 +32,7 @@ docker-compose run --rm app bundle exec rails g serializer api/v1/tweet
 
 module Api
   module V1
-    class TweetSerializer < ActiveModel::Serializer # >
+    class TweetSerializer < ActiveModel::Serializer
       attributes :id, :body, :tweet_original_id, :retweets_count, :likes_count, :liked
       belongs_to :tweet_original
       belongs_to :user
