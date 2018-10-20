@@ -13,9 +13,3 @@ docker-compose run --rm app bundle exec rails g rspec:request api/v1/likes
 4 – Para gerar o teste de request do controller Follows rode no console:
 
 docker-compose run --rm app bundle exec rails g rspec:request api/v1/follows
-
-
-docker-compose run --rm app bundle exec rails g rspec:request api/v1/users
-docker-compose run --rm app bundle exec rails g rspec:request api/v1/tweets
-docker-compose run --rm app bundle exec rails g rspec:request api/v1/likes
-docker-compose run --rm app bundle exec rails g rspec:request api/v1/follows

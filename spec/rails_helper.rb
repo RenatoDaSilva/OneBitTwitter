@@ -1,3 +1,4 @@
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -32,6 +33,13 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  # Custom json helpers
+  config.include Requests::JsonHelpers, type: :request
+  # Custom Header helpers
+  config.include Requests::HeaderHelpers, type: :request
+  # Custom Serializer helpers
+  config.include Requests::SerializerHelpers, type: :request
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
