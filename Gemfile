@@ -33,7 +33,7 @@ gem 'searchkick'
 # Cron programming
 gem 'whenever', :require => false
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.22'
 # jwt authentication
 gem 'knock', '~> 2.1', '>= 2.1.1'
 # Serializer json
